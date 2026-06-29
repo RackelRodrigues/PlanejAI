@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, type LucideIcon } from 'lucide-react';
-import type { SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
+import { formatCurrencyMask } from '../../../utils/currency';
 import { Button } from '../../shared/button';
 import { Input, type InputProps } from '../../shared/input';
 
@@ -17,7 +18,8 @@ export interface FormStepProps {
 
 interface ActionsButtonsProps {
   onBack: () => void;
-  onNext: () => void;
+  onNext: (value: string) => void;
+  hideBackButton?: boolean;
 }
 
 export function FormStep({
@@ -28,10 +30,17 @@ export function FormStep({
   submitButtonProps,
   onBack,
   onNext,
+  hideBackButton,
 }: FormStepProps & ActionsButtonsProps) {
+  const [inputValue, setInputValue] = useState('');
+
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onNext();
+
+    if (!inputValue) {
+      return;
+    }
+    onNext(inputValue);
   };
 
   return (
@@ -41,21 +50,37 @@ export function FormStep({
       </div>
       <h2 className="text-primary mb-1 text-xs font-semibold uppercase tracking-widest">{title}</h2>
       <h3 className="text-foreground mb-6 text-xl font-semibold leading-snug sm:text-2xl">
-        {question}
+        {question}s
       </h3>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <Input {...inputProps} />
+        <Input
+          {...inputProps}
+          value={inputValue}
+          onChange={(e) =>
+            setInputValue(
+              inputProps.prefix === 'R$' ? formatCurrencyMask(e.target.value) : e.target.value,
+            )
+          }
+        />
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
+          {!hideBackButton && (
+            <Button
+              type="button"
+              onClick={onBack}
+              icon={ArrowLeft}
+              variant="ghost"
+              className="order-2 flex-1 justify-center rounded-xl py-3 sm:order-1"
+            >
+              Voltar
+            </Button>
+          )}
+
           <Button
-            type="button"
-            onClick={onBack}
-            icon={ArrowLeft}
-            variant="ghost"
-            className="order-2 flex-1 justify-center rounded-xl py-3 sm:order-1"
+            type="submit"
+            variant="primary"
+            className="order-1 flex-1 sm:order-2"
+            disabled={!inputValue}
           >
-            Voltar
-          </Button>
-          <Button type="submit" variant="primary" className="order-1 flex-1 sm:order-2">
             {submitButtonProps?.label ?? 'Próximo'}
             {submitButtonProps?.emojiIcon ?? <ArrowRight size={16} />}
           </Button>

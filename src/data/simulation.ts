@@ -77,7 +77,7 @@ export const simulationFormSteps = [
 
 export type SimulationFormData = Record<(typeof simulationFormSteps)[number]['id'], string>;
 
-// export type SimulationRecord = SimulationFormData & {
-//   id: string;
-//   insight?: InsightData;
-// };
+export type SimulationRecord = SimulationFormData & {
+  id: string;
+  // insight?: InsightData;
+};
