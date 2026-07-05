@@ -50,7 +50,7 @@ export function FormStep({
       </div>
       <h2 className="text-primary mb-1 text-xs font-semibold uppercase tracking-widest">{title}</h2>
       <h3 className="text-foreground mb-6 text-xl font-semibold leading-snug sm:text-2xl">
-        {question}s
+        {question}
       </h3>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
