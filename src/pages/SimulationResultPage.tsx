@@ -25,15 +25,15 @@ export function SimulationResultPage() {
       <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card
           icon={Goal}
-          label="c=Custo de vida"
+          label="Custo da Meta"
           value={data.goalAMount}
           subtitle={'Viagem para o japão'}
         />
         <Card
           icon={CalendarClock}
-          label="c=Custo de vida"
+          label="Prazo"
           value={data.goalAMount}
-          subtitle={'Viagem para o japão'}
+          subtitle={'prazo para atingir a meta'}
         />
 
         <Card

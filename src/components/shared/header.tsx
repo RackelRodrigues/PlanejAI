@@ -2,6 +2,7 @@ import { Clock, Moon, Sun, TrendingUp, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../hooks/useTheme';
 import { Button } from './button';
+import { Divider } from './divider';
 
 export function Header() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export function Header() {
             <span className="hidden sm:inline">Histórico</span>
           </Button>
 
+          <Divider orientation="vertical" />
           <Button
             variant="ghost"
             aria-label={`MUdar para tema ${theme === 'light' ? 'escuro' : 'claro'}`}
