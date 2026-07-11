@@ -1,29 +1,15 @@
 import { Goal } from 'lucide-react';
 import { CardHistory } from '../components/features/simulationHistory/CardHistory';
 import { PageHero } from '../components/shared/pageHero';
-
-const histories = [
-  {
-    id: 1,
-    icon: <Goal />,
-    title: 'Viagem para o Japão',
-    subtitle: '23/05/2026',
-  },
-  {
-    id: 2,
-    icon: <Goal />,
-    title: 'Viagem para a França',
-    subtitle: '15/08/2026',
-  },
-  {
-    id: 3,
-    icon: <Goal />,
-    title: 'Comprar um carro',
-    subtitle: '10/01/2027',
-  },
-];
+import { useSimulationStorage } from '../hooks/useSimulationStorage';
 
 export function SimulationHistoryPage() {
+  const { getAllFormData } = useSimulationStorage();
+
+  const histories = getAllFormData();
+
+  console.log(histories);
+
   return (
     <main className="mx-auto max-w-6xl  sm:py-14">
       <PageHero
@@ -32,14 +18,21 @@ export function SimulationHistoryPage() {
       />
 
       <div>
-        {histories.map((history) => (
-          <CardHistory
-            key={history.id}
-            icon={history.icon}
-            title={history.title}
-            subtitle={history.subtitle}
-          />
-        ))}
+        {histories.map((history) => {
+          console.log(history);
+
+          return (
+            <CardHistory
+              key={history.id}
+              icon={<Goal />}
+              title={history.goalName}
+              date={history.insight?.createdAt || 'Data não disponível'}
+              goalAmount={history.goalAmount}
+              goalDeadline={`${history.goalDeadline} meses`}
+              subtitle={history.income}
+            />
+          );
+        })}
       </div>
     </main>
   );

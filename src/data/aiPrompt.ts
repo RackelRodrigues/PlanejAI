@@ -4,6 +4,7 @@ import { calcMonthSaving } from '../utils/simulation';
 import type { SimulationRecord } from './simulation';
 
 const RESPONSE_SCHEMA = `{
+  "createdAt": "<Preencha com a data atual da geração desta resposta, no formato dd/MM/yyyy>",
   "feasibility": {
     "status": "viable" | "needs_adjustment" | "unfeasible",
     "content": "<Análise objetiva sobre se a meta é atingível no prazo com o valor disponível. Mencione os números relevantes.>"
@@ -17,9 +18,11 @@ const RESPONSE_SCHEMA = `{
   "extraIncome": {
     "items": ["<Ideia prática para gerar renda extra compatível com a realidade brasileira>"]
   },
-  "investment": {
-    "items": ["<Sugestão de investimento acessível para o perfil apresentado, com foco em atingir a meta>"]
-  },
+ "investment": {
+  "items": [
+    "<Pesquise um investimento de baixo risco disponível atualmente no Brasil (como Tesouro Selic, CDB, CDI ou outro adequado ao perfil). Informe o nome do investimento, a rentabilidade atual, a data da consulta, calcule quanto o usuário acumulará investindo o valor disponível mensalmente até o prazo da meta e explique de forma simples como esse rendimento foi calculado. Caso não seja possível obter dados atualizados, informe isso claramente e não invente valores.>"
+  ]
+},
   "motivation": {
     "content": "<Mensagem final motivacional e personalizada, citando a meta pelo nome.>"
   }

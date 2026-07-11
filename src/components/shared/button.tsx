@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import type { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'primary' | 'secondary' | 'ghost';
+  variant: 'primary' | 'secondary' | 'tertiary' | 'ghost';
   icon?: LucideIcon;
 }
 
@@ -12,6 +12,8 @@ const baseClasses =
 const variantClasses = {
   primary: 'bg-primary text-primary-foreground font-semibold rounded-xl ',
   secondary: 'bg-secondary-button border border-border rounded-3xl px-3',
+  tertiary:
+    'bg-color-muted-primary border border-border text-color-muted-foreground rounded-3xl px-4 py-2 hover:bg-color-secondary-button transition-colors',
   ghost: 'rounded-lg text-foreground ',
 };
 

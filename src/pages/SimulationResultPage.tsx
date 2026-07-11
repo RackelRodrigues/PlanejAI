@@ -23,16 +23,11 @@ export function SimulationResultPage() {
         subtitle="Com base no seu perfil financeiro e objetivos."
       />
       <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card
-          icon={Goal}
-          label="Custo da Meta"
-          value={data.goalAMount}
-          subtitle={'Viagem para o japão'}
-        />
+        <Card icon={Goal} label="Custo da Meta" value={data.goalAmount} subtitle={data.goalName} />
         <Card
           icon={CalendarClock}
           label="Prazo"
-          value={data.goalAMount}
+          value={`${data.goalDeadline} Meses`}
           subtitle={'prazo para atingir a meta'}
         />
 

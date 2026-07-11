@@ -7,6 +7,7 @@ interface GeminiResponse {
 }
 
 export interface InsightData {
+  createdAt: string;
   feasibility: {
     status: 'viable' | 'needs_adjustment' | 'unfeasible';
     content: string;
