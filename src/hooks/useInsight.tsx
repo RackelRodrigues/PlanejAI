@@ -45,6 +45,7 @@ export const useInsight = (id: string) => {
         updateSimulation(simulationId, {
           ...simulation,
           insight: data,
+          messages: simulation.messages ?? '[]',
         } as SimulationRecord);
 
         return data;

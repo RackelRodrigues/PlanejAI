@@ -1,14 +1,34 @@
 import { Goal } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CardHistory } from '../components/features/simulationHistory/CardHistory';
+import { Button } from '../components/shared/button';
+import { Modal } from '../components/shared/modal';
 import { PageHero } from '../components/shared/pageHero';
 import { useSimulationStorage } from '../hooks/useSimulationStorage';
 
 export function SimulationHistoryPage() {
-  const { getAllFormData } = useSimulationStorage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const { getAllFormData, deleteFormData } = useSimulationStorage();
 
   const histories = getAllFormData();
 
   console.log(histories);
+
+  const handleDelete = (id: string) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
+  };
+  const handleDetails = (id: string) => {
+    navigate(`/resultado/${id}`);
+  };
+
+  const handleChat = (id: string) => {
+    navigate(`/chat/${id}`);
+  };
 
   return (
     <main className="mx-auto max-w-6xl  sm:py-14">
@@ -30,10 +50,47 @@ export function SimulationHistoryPage() {
               goalAmount={history.goalAmount}
               goalDeadline={`${history.goalDeadline} meses`}
               subtitle={history.income}
+              onDelete={() => {
+                handleDelete(history.id);
+              }}
+              onDetails={() => {
+                handleDetails(history.id);
+              }}
+              onChat={() => handleChat(history.id)}
             />
           );
         })}
       </div>
+
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          question="  Voce tem certeza que deseja excluir esta simulação?"
+        >
+          <div className="flex w-full flex-1 gap-2">
+            <Button
+              className="w-full"
+              variant="primary"
+              onClick={() => {
+                if (selectedId) {
+                  deleteFormData(selectedId);
+                }
+                setIsModalOpen(false);
+              }}
+            >
+              Excluir
+            </Button>
+            <Button
+              className="border-b-background w-full"
+              variant="ghost"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </Modal>
+      )}
     </main>
   );
 }
