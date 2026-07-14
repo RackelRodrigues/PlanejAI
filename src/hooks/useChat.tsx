@@ -63,6 +63,8 @@ export function useChat(id: string) {
 
         const finalMessages = [...updatedMessages, assistantMessage];
 
+        setMessages(finalMessages);
+
         updateSimulation(id, {
           ...simulation,
           messages: JSON.stringify(finalMessages),

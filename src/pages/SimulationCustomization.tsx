@@ -1,6 +1,7 @@
 import { MessageCircle, MousePointer2 } from 'lucide-react';
 import { useState, type SyntheticEvent } from 'react';
 import { useParams } from 'react-router-dom';
+import { SimulationChatError } from '../components/features/simulationChat/error';
 import { Button } from '../components/shared/button';
 import { Divider } from '../components/shared/divider';
 import { Input } from '../components/shared/input';
@@ -12,7 +13,7 @@ export function SimulationCustomization() {
   const { getFormData } = useSimulationStorage();
   const [question, setQuestion] = useState('');
   const data = id ? getFormData(id) : null;
-  const { sendMessage } = useChat(id ?? '');
+  const { error, isLoading, sendMessage, messages } = useChat(id ?? '');
 
   const handleSendMessage = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,14 +30,14 @@ export function SimulationCustomization() {
   return (
     <main className="px-8 py-5">
       <h2 className="text-primary font-md text-md">✨ Insight financeiro personalizado</h2>
-      <h1 className="text-foreground text-xl font-bold">Plano de Açao: {data?.goalName}</h1>
-      <div>
-        <div className="flex flex-col gap-3 ">
+      <h1 className="text-foreground text-2xl font-bold">Plano de Ação: {data?.goalName}</h1>
+      <div className=" mb-15 h-full overflow-y-auto">
+        <div className="mt-5 flex flex-col">
           <h2 className="text-foreground text-md font-semibold">💰 Diagnóstico Financeiro</h2>
           <p className="text-foreground ">{data?.insight?.diagnosis?.content}</p>
         </div>
 
-        <div className="flex flex-col gap-3 ">
+        <div className="mt-5 flex flex-col">
           <h2 className="text-foreground text-md font-semibold">📋 Sugestões Práticas</h2>
           <ol>
             {data?.insight?.suggestions?.items.map((item, index) => (
@@ -45,7 +46,7 @@ export function SimulationCustomization() {
           </ol>
         </div>
 
-        <div className="flex flex-col gap-3 ">
+        <div className="mt-5 flex flex-col ">
           <h2 className="text-foreground text-md font-semibold">💡 Como Aumentar sua Renda</h2>
           <ol>
             {data?.insight?.extraIncome?.items.map((item, index) => (
@@ -55,47 +56,73 @@ export function SimulationCustomization() {
         </div>
 
         <Divider orientation="horizontal" />
-        <div className=" outline-muted-foreground flex flex-col ">
-          <h2 className="text-muted-foreground flex items-center gap-1 font-semibold">
-            <MessageCircle />
-            você
-          </h2>
-          <p className="text-muted-foreground font-semibold">
-            Como eu posso ganhar uma renda extra para atingir minha meta? Atualmente trabalho como
-            programador de aplicativos.
-          </p>
-          <Divider orientation="horizontal" />
-        </div>
-        <div className=" outline-muted-foreground flex flex-col ">
-          <h2 className=" text-muted-foreground flex items-center gap-1 font-semibold">
-            <MessageCircle />
-            Resposta da IA
-          </h2>
-          <p className="text-foreground ">
-            Para acelerar sua meta rumo ao Japão, você pode aproveitar sua experiência como
-            desenvolvedor na Eduzz e em projetos de React.JS para realizar consultorias técnicas ou
-            freelas de manutenção de apps. Como você domina tecnologias de alta demanda como Kafka,
-            ClickHouse e RabbitMQ, oferecer mentorias de arquitetura de dados ou criar micro-SaaS
-            focados em analytics são excelentes formas de gerar receita extra. Além disso, a venda
-            de componentes prontos ou guias técnicos baseados no curso que você está desenvolvendo
-            pode criar uma fonte de renda passiva constante. O foco em projetos de curto prazo
-            garantirá o aporte necessário sem sobrecarregar sua rotina atual.
-          </p>
-          <Divider orientation="horizontal" />
-        </div>
+        {messages.map((message, index) =>
+          message.role === 'user' ? (
+            <div key={index} className="outline-muted-foreground flex flex-col">
+              <h2 className="text-muted-foreground flex items-center gap-1 font-semibold">
+                <MessageCircle />
+                Você
+              </h2>
+
+              <p className="text-muted-foreground font-semibold">{message.content}</p>
+
+              <Divider orientation="horizontal" />
+            </div>
+          ) : (
+            <div key={index} className="outline-muted-foreground flex flex-col">
+              <h2 className="text-muted-foreground flex items-center gap-1 font-semibold">
+                <MessageCircle />
+                Resposta da IA
+              </h2>
+
+              <p className="text-foreground">{message.content}</p>
+
+              <Divider orientation="horizontal" />
+            </div>
+          ),
+        )}
+
+        {isLoading && (
+          <div className="outline-muted-foreground flex flex-col">
+            <h2 className="text-muted-foreground flex items-center gap-1 font-semibold">
+              <MessageCircle />
+              Resposta da IA
+            </h2>
+
+            <div className="flex gap-1 py-2">
+              <span className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full"></span>
+              <span
+                className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full"
+                style={{ animationDelay: '150ms' }}
+              ></span>
+              <span
+                className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full"
+                style={{ animationDelay: '300ms' }}
+              ></span>
+            </div>
+
+            <Divider orientation="horizontal" />
+          </div>
+        )}
+
+        {error && (
+          <div className="outline-muted-foreground flex flex-col">
+            <SimulationChatError message={error} onRetry={() => sendMessage(question)} />
+          </div>
+        )}
       </div>
       <div className="bg-card fixed bottom-0 left-0 right-0 w-full p-4">
-        <div className="flex w-full items-center gap-2">
-          <form onSubmit={handleSendMessage} className=" flex w-full items-center gap-2 ">
+        <div className="flex w-full flex-1 items-center gap-2">
+          <form onSubmit={handleSendMessage} className="flex  w-full items-center gap-2">
             <Input
-              className="flex-1 border-none outline-none"
+              className=" flex-1 border-none outline-none"
               placeholder="Digite sua mensagem..."
               value={question ?? ''}
               onChange={(e) => setQuestion(e.target.value)}
             />
 
-            <Button variant="primary" className="p-2" type="submit">
-              <MousePointer2 />
+            <Button variant="primary" className="shrink-0 p-2" type="submit">
+              <MousePointer2 className="rotate-90" />
             </Button>
           </form>
         </div>
