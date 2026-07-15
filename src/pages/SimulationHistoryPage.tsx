@@ -16,8 +16,6 @@ export function SimulationHistoryPage() {
 
   const histories = getAllFormData();
 
-  console.log(histories);
-
   const handleDelete = (id: string) => {
     setSelectedId(id);
     setIsModalOpen(true);
@@ -39,8 +37,6 @@ export function SimulationHistoryPage() {
 
       <div className="p-2 sm:p-0">
         {histories.map((history) => {
-          console.log(history);
-
           return (
             <CardHistory
               key={history.id}

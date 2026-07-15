@@ -20,8 +20,6 @@ export function SimulationCustomization() {
 
     if (!question.trim()) return;
 
-    console.log('Pergunta enviada:', question);
-
     await sendMessage(question);
 
     setQuestion('');

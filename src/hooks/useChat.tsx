@@ -69,8 +69,6 @@ export function useChat(id: string) {
           ...simulation,
           messages: JSON.stringify(finalMessages),
         });
-
-        console.log('Resposta recebida:', answer);
       } catch {
         setError('Erro ao enviar mensagem.');
       } finally {

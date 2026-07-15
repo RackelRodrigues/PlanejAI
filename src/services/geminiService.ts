@@ -18,7 +18,6 @@ export const callGeminiAPI = async (prompt: string) => {
       contents: [{ parts: [{ text: prompt }] }],
     }),
   });
-  console.log('Prompt enviado para a API do Gemini:', prompt);
 
   if (!response.ok) {
     throw new Error(`Erro na requisição: ${response.status}`);
