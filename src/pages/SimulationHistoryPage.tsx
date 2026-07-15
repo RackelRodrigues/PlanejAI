@@ -37,7 +37,7 @@ export function SimulationHistoryPage() {
         subtitle="Acompanhe o histórico de seus planos financeiros."
       />
 
-      <div>
+      <div className="p-2 sm:p-0">
         {histories.map((history) => {
           console.log(history);
 

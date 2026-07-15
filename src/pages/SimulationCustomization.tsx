@@ -1,8 +1,7 @@
-import { MessageCircle, MousePointer2 } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { useState, type SyntheticEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { SimulationChatError } from '../components/features/simulationChat/error';
-import { Button } from '../components/shared/button';
 import { Divider } from '../components/shared/divider';
 import { Input } from '../components/shared/input';
 import { useChat } from '../hooks/useChat';
@@ -31,7 +30,7 @@ export function SimulationCustomization() {
     <main className="px-8 py-5">
       <h2 className="text-primary font-md text-md">✨ Insight financeiro personalizado</h2>
       <h1 className="text-foreground text-2xl font-bold">Plano de Ação: {data?.goalName}</h1>
-      <div className=" mb-15 h-full overflow-y-auto">
+      <div className="mb-15 h-full overflow-y-auto">
         <div className="mt-5 flex flex-col">
           <h2 className="text-foreground text-md font-semibold">💰 Diagnóstico Financeiro</h2>
           <p className="text-foreground ">{data?.insight?.diagnosis?.content}</p>
@@ -70,7 +69,7 @@ export function SimulationCustomization() {
             </div>
           ) : (
             <div key={index} className="outline-muted-foreground flex flex-col">
-              <h2 className="text-muted-foreground flex items-center gap-1 font-semibold">
+              <h2 className="text-muted-foreground mb-2 flex items-center gap-1 font-semibold">
                 <MessageCircle />
                 Resposta da IA
               </h2>
@@ -111,22 +110,22 @@ export function SimulationCustomization() {
           </div>
         )}
       </div>
-      <div className="bg-card fixed bottom-0 left-0 right-0 w-full p-4">
-        <div className="flex w-full flex-1 items-center gap-2">
-          <form onSubmit={handleSendMessage} className="flex  w-full items-center gap-2">
-            <Input
-              className=" flex-1 border-none outline-none"
-              placeholder="Digite sua mensagem..."
-              value={question ?? ''}
-              onChange={(e) => setQuestion(e.target.value)}
-            />
+      <div className="bg-card fixed bottom-0  flex w-full items-center p-4">
+        {/* <div className="flex w-full flex-1 items-center gap-2"> */}
+        <form onSubmit={handleSendMessage} className="flex  w-full items-center gap-2">
+          <Input
+            className=" flex-1 border-none outline-none"
+            placeholder="Digite sua mensagem..."
+            value={question ?? ''}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
 
-            <Button variant="primary" className="shrink-0 p-2" type="submit">
-              <MousePointer2 className="rotate-90" />
-            </Button>
-          </form>
-        </div>
+          {/* <Button variant="primary" className="shrink-0 p-2" type="submit">
+            <MousePointer2 className="rotate-90" />
+          </Button> */}
+        </form>
       </div>
+      {/* </div> */}
     </main>
   );
 }

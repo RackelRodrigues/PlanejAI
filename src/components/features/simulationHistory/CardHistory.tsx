@@ -26,7 +26,7 @@ export function CardHistory({
   onChat,
 }: CardHistoryProps) {
   return (
-    <div className="bg-card mb-5 flex w-full items-center  gap-4 rounded-2xl p-6 shadow-[4px_4px_18px_0px_rgba(0,0,0,0.2)] ">
+    <div className="bg-card mb-5 flex w-full items-center gap-4 rounded-2xl p-2 shadow-[4px_4px_18px_0px_rgba(0,0,0,0.2)] sm:p-6 ">
       <span className="bg-muted hidden h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-purple-400 text-white sm:flex">
         {icon}
       </span>
@@ -55,20 +55,18 @@ export function CardHistory({
           <p className="text-lg font-semibold">{subtitle}</p>
         </div>
 
-        <div className="flex items-center gap-2 sm:justify-center">
-          <Divider orientation="vertical" className="h-full sm:hidden" />
+        <div className="flex items-center justify-center gap-2">
+          <Divider orientation="vertical" className="hidden h-full sm:flex sm:h-full" />
           <Button
             variant="ghost"
             icon={TrashIcon}
-            className="text-red-500 sm:flex-1"
+            className="text-red-500  sm:justify-center"
             onClick={onDelete}
           />
-
-          <Button variant="secondary" className="sm:flex-1" icon={ExternalLink} onClick={onDetails}>
+          <Button variant="secondary" icon={ExternalLink} onClick={onDetails}>
             ver detalhes
           </Button>
-
-          <Button variant="tertiary" className="sm:flex-1" icon={MessageCircle} onClick={onChat}>
+          <Button variant="tertiary" icon={MessageCircle} onClick={onChat}>
             Abrir chat
           </Button>
         </div>
