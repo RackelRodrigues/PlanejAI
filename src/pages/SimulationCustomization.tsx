@@ -1,7 +1,8 @@
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, MousePointer2 } from 'lucide-react';
 import { useState, type SyntheticEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { SimulationChatError } from '../components/features/simulationChat/error';
+import { Button } from '../components/shared/button';
 import { Divider } from '../components/shared/divider';
 import { Input } from '../components/shared/input';
 import { useChat } from '../hooks/useChat';
@@ -110,22 +111,20 @@ export function SimulationCustomization() {
           </div>
         )}
       </div>
-      <div className="bg-card fixed bottom-0  flex w-full items-center p-4">
-        {/* <div className="flex w-full flex-1 items-center gap-2"> */}
-        <form onSubmit={handleSendMessage} className="flex  w-full items-center gap-2">
+      <div className="bg-card fixed inset-x-0 bottom-0 p-4">
+        <form className="flex w-full gap-2" onSubmit={handleSendMessage}>
           <Input
-            className=" flex-1 border-none outline-none"
+            className="w-full flex-1"
             placeholder="Digite sua mensagem..."
             value={question ?? ''}
             onChange={(e) => setQuestion(e.target.value)}
           />
 
-          {/* <Button variant="primary" className="shrink-0 p-2" type="submit">
+          <Button variant="primary" className="shrink-0 p-4" type="submit">
             <MousePointer2 className="rotate-90" />
-          </Button> */}
+          </Button>
         </form>
       </div>
-      {/* </div> */}
     </main>
   );
 }

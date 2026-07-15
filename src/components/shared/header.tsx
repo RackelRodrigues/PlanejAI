@@ -21,7 +21,7 @@ export function Header() {
             <span className="font-extrabold">.ai</span>
           </span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <Button variant="secondary" icon={TrendingUp} onClick={() => void navigate('/')}>
             <span className="hidden sm:inline">Nova Simulação</span>
           </Button>
