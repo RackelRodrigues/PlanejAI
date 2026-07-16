@@ -1,10 +1,11 @@
 import { parseCurrency } from '../utils/currency';
+import { getCurrentDate } from '../utils/date';
 import { calcMonthSaving } from '../utils/simulation';
 
 import type { SimulationRecord } from './simulation';
 
 const RESPONSE_SCHEMA = `{
-  "createdAt": "<Preencha com a data atual da geração desta resposta, no formato dd/MM/yyyy>",
+  "createdAt": "<Data atual passado no prompt, no formato <dd/mm/aaaa>",
   "feasibility": {
     "status": "viable" | "needs_adjustment" | "unfeasible",
     "content": "<Análise objetiva sobre se a meta é atingível no prazo com o valor disponível. Mencione os números relevantes.>"
@@ -33,8 +34,10 @@ export function buildAIPrompt(simulation: SimulationRecord) {
 
   const monthlySavings = calcMonthSaving(simulation);
   const monthlySavingsNeeded = parseCurrency(goalAmount) / parseInt(goalDeadline);
+  const currentDate = getCurrentDate();
 
   return `Você é um educador financeiro especializado em finanças pessoais.
+    Hoje é ${currentDate}. Considere esta como a data atual da geração da resposta e utilize exatamente essa data no campo "createdAt" do JSON.
     Analise os dados abaixo e gere um diagnóstico financeiro personalizado com linguagem clara, didática e encorajadora,
     voltado para pessoas sem conhecimento financeiro. O diagnóstico será exibido diretamente ao usuário no app,
     fale sempre em segunda pessoa ("você tem...", "sua meta...").
