@@ -19,10 +19,8 @@ export function SimulationCustomization() {
     e.preventDefault();
 
     if (!question.trim()) return;
-
-    await sendMessage(question);
-
     setQuestion('');
+    await sendMessage(question);
   };
 
   return (
